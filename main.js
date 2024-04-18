@@ -42,11 +42,12 @@ L.control
   })
   .addTo(map);
 
-// Marker Stephansdom
+/* Marker Stephansdom
 L.marker([stephansdom.lat, stephansdom.lng])
   .addTo(map)
   .bindPopup(stephansdom.title)
   .openPopup();
+  */
 
 // Maßstab
 L.control
@@ -65,6 +66,7 @@ L.control.fullscreen().addTo(map);
 // addiere(4, 7);
 
 //aufwendige Funktion!! Hier werden Daten von Server abgegriffen 
+//Aufruf Sightseeing
 async function loadSights(url) {
   // console.log("loading", url);
   let response = await fetch(url);
@@ -72,8 +74,8 @@ async function loadSights(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
       <img src="${feature.properties.THUMBNAIL}" alt="*">
       <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
@@ -93,13 +95,8 @@ async function loadLines(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
-      layer.bindPopup(`
-      <img src="${feature.properties.THUMBNAIL}" alt="*">
-      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
-        <address>${feature.properties.ADRESSE}</address>
-        `)
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
     }
   }).addTo(themaLayer.lines);
 }
@@ -115,8 +112,8 @@ async function loadStops(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
       <img src="${feature.properties.THUMBNAIL}" alt="*">
       <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
@@ -137,13 +134,8 @@ async function loadzones(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
-      layer.bindPopup(`
-      <img src="${feature.properties.THUMBNAIL}" alt="*">
-      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
-        <address>${feature.properties.ADRESSE}</address>
-        `)
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
     }
   }).addTo(themaLayer.zones);
 }
@@ -171,3 +163,6 @@ async function loadhotels(url) {
 }
 loadhotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json");
 
+
+
+//<hr> Querstrich
