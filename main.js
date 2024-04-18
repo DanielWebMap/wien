@@ -18,7 +18,8 @@ let themaLayer = {
   sights: L.featureGroup().addTo(map),
   lines: L.featureGroup().addTo(map),
   stops: L.featureGroup().addTo(map),
-  lines: L.featureGroup().addTo(map),
+  zones: L.featureGroup().addTo(map),
+  hotels: L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer
@@ -34,8 +35,10 @@ L.control
     "BasemapAT OpenTopoMap": L.tileLayer.provider("OpenTopoMap")
   }, {
     "Sehenswürdigkeiten": themaLayer.sights,
-    "Vienne Sightseeing Linien": themaLayer.lines,
-    "Vienne Bus Stops": themaLayer.stops,
+    "Sightseeing Linien": themaLayer.lines,
+    "Bushaltestellen": themaLayer.stops,
+    "Fußgängerzonen": themaLayer.zones,
+    "Hotels": themaLayer.hotels
   })
   .addTo(map);
 
@@ -126,4 +129,45 @@ loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 
 
 //Aufruf Fußgängerzonen
+
+async function loadzones(url) {
+  // console.log("loading", url);
+  let response = await fetch(url);
+  let geojson = await response.json();
+  // console.log(geojson);
+  L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <img src="${feature.properties.THUMBNAIL}" alt="*">
+      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
+        <address>${feature.properties.ADRESSE}</address>
+        `)
+    }
+  }).addTo(themaLayer.zones);
+}
+loadzones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
+
+
 //Aufruf Hotels
+
+async function loadhotels(url) {
+  // console.log("loading", url);
+  let response = await fetch(url);
+  let geojson = await response.json();
+  // console.log(geojson);
+  L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <img src="${feature.properties.THUMBNAIL}" alt="*">
+      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
+        <address>${feature.properties.ADRESSE}</address>
+        `)
+    }
+  }).addTo(themaLayer.hotels);
+}
+loadhotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json");
+
