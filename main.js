@@ -16,6 +16,9 @@ startLayer.addTo(map);
 
 let themaLayer = {
   sights: L.featureGroup().addTo(map),
+  lines: L.featureGroup().addTo(map),
+  stops: L.featureGroup().addTo(map),
+  lines: L.featureGroup().addTo(map),
 }
 
 // Hintergrundlayer
@@ -29,7 +32,11 @@ L.control
     "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
     "BasemapAT Beschriftung": L.tileLayer.provider("BasemapAT.overlay"),
     "BasemapAT OpenTopoMap": L.tileLayer.provider("OpenTopoMap")
-  }, { "Sehenswürdigkeiten": themaLayer.sights, })
+  }, {
+    "Sehenswürdigkeiten": themaLayer.sights,
+    "Vienne Sightseeing Linien": themaLayer.lines,
+    "Vienne Bus Stops": themaLayer.stops,
+  })
   .addTo(map);
 
 // Marker Stephansdom
@@ -73,3 +80,50 @@ async function loadSights(url) {
   }).addTo(themaLayer.sights);
 }
 loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json");
+
+//Aufruf Liniennetz
+
+async function loadLines(url) {
+  // console.log("loading", url);
+  let response = await fetch(url);
+  let geojson = await response.json();
+  // console.log(geojson);
+  L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <img src="${feature.properties.THUMBNAIL}" alt="*">
+      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
+        <address>${feature.properties.ADRESSE}</address>
+        `)
+    }
+  }).addTo(themaLayer.lines);
+}
+loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
+
+
+//Aufruf Haltestellen
+
+async function loadStops(url) {
+  // console.log("loading", url);
+  let response = await fetch(url);
+  let geojson = await response.json();
+  // console.log(geojson);
+  L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <img src="${feature.properties.THUMBNAIL}" alt="*">
+      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
+        <address>${feature.properties.ADRESSE}</address>
+        `)
+    }
+  }).addTo(themaLayer.stops);
+}
+loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json");
+
+
+//Aufruf Fußgängerzonen
+//Aufruf Hotels
