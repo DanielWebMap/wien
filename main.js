@@ -42,3 +42,20 @@ L.control
   .addTo(map);
 
 L.control.fullscreen().addTo(map);
+
+// function addiere(zahl1, zahl2) {
+//   let summe = zahl1 + zahl2;
+//   console.log("Summe: ", summe)
+// }
+
+// addiere(4, 7);
+
+//aufwendige Funktion!!
+async function loadSights(url) {
+  // console.log("loading", url);
+  let response = await fetch(url);
+  let geojson = await response.json();
+  // console.log(geojson);
+  L.geoJSON(geojson).addTo(map);
+}
+loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json");
