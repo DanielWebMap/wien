@@ -139,10 +139,13 @@ async function loadzones(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties);
+      //console.log(feature);
+      //console.log(feature.properties);
       layer.bindPopup(
-
+        `<h4>Fussgängerzone ${feature.properties.ADRESSE}</h4>
+        <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM} <br><br>
+        <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TEXT}
+        `
 
       )
     }
@@ -161,11 +164,16 @@ async function loadhotels(url) {
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       //console.log(feature);
-      //console.log(feature.properties.NAME);
+      //console.log(feature.properties);
       layer.bindPopup(`
-      <img src="${feature.properties.THUMBNAIL}" alt="*">
-      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
-        <address>${feature.properties.ADRESSE}</address>
+      
+      <h3>${feature.properties.BETRIEB}</h3>
+      <h4>${feature.properties.BETRIEBSART_TXT} ${feature.properties.KATEGORIE_TXT}</h4> 
+      <hr>
+        Addr.: ${feature.properties.ADRESSE}<br>
+        Tel.: <a href="${feature.properties.KONTAKT_TEL}" alt="*">${feature.properties.KONTAKT_TEL}</a><br>
+        <a href="${feature.properties.KONTAKT_EMAIL}" alt="*">${feature.properties.KONTAKT_EMAIL}</a><br>
+        <a href="${feature.properties.WEBLINK1}" alt="*">Homepage</a>
         `)
     }
   }).addTo(themaLayer.hotels);
