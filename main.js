@@ -96,7 +96,13 @@ async function loadLines(url) {
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       //console.log(feature);
-      //console.log(feature.properties.NAME);
+      //console.log(feature.properties);
+      layer.bindPopup(`
+      <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
+      <i class="fa-regular fa-circle-stop"></i> ${feature.properties.FROM_NAME}<br>
+      <i class="fa-solid fa-down-long"></i><br> 
+      <i class="fa-regular fa-circle-stop"></i> ${feature.properties.TO_NAME}
+      `)
     }
   }).addTo(themaLayer.lines);
 }
@@ -113,11 +119,10 @@ async function loadStops(url) {
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       //console.log(feature);
-      //console.log(feature.properties.NAME);
+      //console.log(feature.properties);
       layer.bindPopup(`
-      <img src="${feature.properties.THUMBNAIL}" alt="*">
-      <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
-        <address>${feature.properties.ADRESSE}</address>
+      <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4> 
+      ${feature.properties.STAT_NAME}
         `)
     }
   }).addTo(themaLayer.stops);
@@ -134,8 +139,12 @@ async function loadzones(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      //console.log(feature);
-      //console.log(feature.properties.NAME);
+      console.log(feature);
+      console.log(feature.properties);
+      layer.bindPopup(
+
+
+      )
     }
   }).addTo(themaLayer.zones);
 }
@@ -151,8 +160,8 @@ async function loadhotels(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
       <img src="${feature.properties.THUMBNAIL}" alt="*">
       <h4><a href="${feature.properties.WEITERE_INF}" target="wien">${feature.properties.NAME}</a></h4>
