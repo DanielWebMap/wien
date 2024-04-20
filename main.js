@@ -103,7 +103,14 @@ async function loadLines(url) {
       <i class="fa-solid fa-down-long"></i><br> 
       <i class="fa-regular fa-circle-stop"></i> ${feature.properties.TO_NAME}
       `)
+    },
+
+    //Linienfarbe anpassen
+    style: function (feature) {
+      return { color: `${feature.properties.LINE_NAME.split(' ')[0]}`, width: 4 };  //NAME Wird eingelesen, Mit Funktion Split alledings nur erstes Wort der Zeichenkette (getrennt durch Leerzeichen)
     }
+
+
   }).addTo(themaLayer.lines);
 }
 loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
