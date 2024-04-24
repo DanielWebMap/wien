@@ -123,12 +123,6 @@ async function loadStops(url) {
   let response = await fetch(url);
   let geojson = await response.json();
 
-  let Icon = L.icon({
-    iconUrl: '/images/icon.svg',
-    iconSize: [35, 35]
-  });
-
-
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
@@ -138,12 +132,7 @@ async function loadStops(url) {
       <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4> 
       ${feature.properties.STAT_NAME}
         `)
-    },
-
-    pointToLayer: function (feature, latlng) {
-      return L.marker(latlng, { icon: Icon });
     }
-
 
   }).addTo(themaLayer.stops);
 }
