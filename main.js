@@ -172,16 +172,16 @@ async function loadhotels(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      //console.log(feature);
-      //console.log(feature.properties);
+      console.log(feature);
+      console.log(feature.properties);
       layer.bindPopup(`
       
       <h3>${feature.properties.BETRIEB}</h3>
       <h4>${feature.properties.BETRIEBSART_TXT} ${feature.properties.KATEGORIE_TXT}</h4> 
       <hr>
         Addr.: ${feature.properties.ADRESSE}<br>
-        Tel.: <a href="${feature.properties.KONTAKT_TEL}" alt="*">${feature.properties.KONTAKT_TEL}</a><br>
-        <a href="${feature.properties.KONTAKT_EMAIL}" alt="*">${feature.properties.KONTAKT_EMAIL}</a><br>
+        Tel.: <a href="tel:${feature.properties.KONTAKT_TEL}" alt="*">${feature.properties.KONTAKT_TEL}</a><br>
+        E-Mail: <a href="mailto:${feature.properties.KONTAKT_EMAIL}" alt="*">${feature.properties.KONTAKT_EMAIL}</a><br>
         <a href="${feature.properties.WEBLINK1}" alt="*">Homepage</a>
         `)
     }
