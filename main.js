@@ -17,7 +17,7 @@ startLayer.addTo(map);
 let themaLayer = {
   sights: L.featureGroup().addTo(map),
   lines: L.featureGroup().addTo(map),
-  stops: L.featureGroup(),
+  stops: L.featureGroup().addTo(map),
   zones: L.featureGroup().addTo(map),
   hotels: L.featureGroup().addTo(map),
 }
@@ -154,15 +154,7 @@ async function loadLines(url) {
 loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
 
 
-//Aufruf Haltestellen
-/*
-bus_1.png 1 Red
-bus_1.png 2 Yellow
-bus_3.png 3 Blue
-bus_4.png 4 Green
-bus_5.png 5 Grey
-bus_6.png 6 Orange
- */
+
 
 async function loadStops(url) {
   // console.log("loading", url);
@@ -254,6 +246,9 @@ async function loadhotels(url) {
       }
       else if (iconKategorie == "nicht kategorisiert") {
         iconName = "hotel_0star"
+      }
+      else {
+        //Vielleicht kommen noch andere Kategorien dazu...
       }
       return L.marker(latlng, {
         icon: L.icon({
