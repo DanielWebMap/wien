@@ -155,6 +155,14 @@ loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 
 
 //Aufruf Haltestellen
+/*
+bus_1.png 1 Red
+bus_1.png 2 Yellow
+bus_3.png 3 Blue
+bus_4.png 4 Green
+bus_5.png 5 Grey
+bus_6.png 6 Orange
+ */
 
 async function loadStops(url) {
   // console.log("loading", url);
@@ -164,12 +172,21 @@ async function loadStops(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      //console.log(feature);
-      //console.log(feature.properties);
+      console.log(feature);
+      console.log(feature.properties);
       layer.bindPopup(`
       <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4> 
       ${feature.properties.STAT_NAME}
         `)
+    },
+    pointToLayer: function (feature, latlng) {
+      return L.marker(latlng, {
+        icon: L.icon({
+          iconUrl: `icons/bus_${feature.properties.LINE_ID}.png`,
+          iconAnchor: [16, 37],
+          popupAnchor: [0, -37]
+        })
+      });
     }
 
   }).addTo(themaLayer.stops);
