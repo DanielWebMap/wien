@@ -19,7 +19,9 @@ let themaLayer = {
   lines: L.featureGroup().addTo(map),
   stops: L.featureGroup().addTo(map),
   zones: L.featureGroup().addTo(map),
-  hotels: L.featureGroup().addTo(map),
+  hotels: L.markerClusterGroup({
+    disableClusteringAtZoom: 17
+  }).addTo(map),
 }
 
 // Hintergrundlayer
@@ -260,8 +262,8 @@ async function loadhotels(url) {
       });
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties);
+      //console.log(feature);
+      //console.log(feature.properties);
       layer.bindPopup(`
       
       <h3>${feature.properties.BETRIEB}</h3>
