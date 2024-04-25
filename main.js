@@ -15,10 +15,10 @@ let startLayer = L.tileLayer.provider("BasemapAT.grau");
 startLayer.addTo(map);
 
 let themaLayer = {
-  sights: L.featureGroup(),
+  sights: L.featureGroup().addTo(map),
   lines: L.featureGroup().addTo(map),
   stops: L.featureGroup(),
-  zones: L.featureGroup(),
+  zones: L.featureGroup().addTo(map),
   hotels: L.featureGroup(),
 }
 
@@ -72,7 +72,18 @@ async function loadSights(url) {
   let response = await fetch(url);
   let geojson = await response.json();
   // console.log(geojson);
+
   L.geoJSON(geojson, {
+
+    pointToLayer: function (feature, latlng) {
+      return L.marker(latlng, {
+        icon: L.icon({
+          iconUrl: 'icons/photo.png',
+          iconAnchor: [16, 37],
+          popupAnchor: [0, -37]
+        })
+      });
+    },
     onEachFeature: function (feature, layer) {
       //console.log(feature);
       //console.log(feature.properties.NAME);
@@ -95,8 +106,8 @@ async function loadLines(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.LINE_NAME);
+      //console.log(feature);
+      //console.log(feature.properties.LINE_NAME);
       layer.bindPopup(`
       <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
       <i class="fa-regular fa-circle-stop"></i> ${feature.properties.FROM_NAME}<br>
@@ -131,6 +142,9 @@ async function loadLines(url) {
       }
       else if (lineName == "Grey Line") {
         lineColor = "#AAAAAA "
+      }
+      else {
+        //Vielleicht kommen noch andere Linien dazu...
       }
       return { color: lineColor, };
     }
