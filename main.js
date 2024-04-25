@@ -249,6 +249,7 @@ async function loadhotels(url) {
       }
       else {
         //Vielleicht kommen noch andere Kategorien dazu...
+        iconName = "hotel_0star"
       }
       return L.marker(latlng, {
         icon: L.icon({
