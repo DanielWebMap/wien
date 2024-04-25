@@ -8,7 +8,7 @@ let stephansdom = {
 };
 
 // Karte initialisieren
-let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 12);
+let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 15);
 
 // BasemapAT Layer mit Leaflet provider plugin als startLayer Variable
 let startLayer = L.tileLayer.provider("BasemapAT.grau");
