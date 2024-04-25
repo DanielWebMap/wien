@@ -16,9 +16,9 @@ startLayer.addTo(map);
 
 let themaLayer = {
   sights: L.featureGroup(),
-  lines: L.featureGroup(),
+  lines: L.featureGroup().addTo(map),
   stops: L.featureGroup(),
-  zones: L.featureGroup().addTo(map),
+  zones: L.featureGroup(),
   hotels: L.featureGroup(),
 }
 
@@ -95,8 +95,8 @@ async function loadLines(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      //console.log(feature);
-      //console.log(feature.properties);
+      console.log(feature);
+      console.log(feature.properties.LINE_NAME);
       layer.bindPopup(`
       <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
       <i class="fa-regular fa-circle-stop"></i> ${feature.properties.FROM_NAME}<br>
@@ -105,11 +105,35 @@ async function loadLines(url) {
       `)
     },
 
-    //Linienfarbe anpassen
-    style: function (feature) {
+    //Linienfarbe anpassen nach Titel der Linien 
+    /*style: function (feature) {
       return { color: `${feature.properties.LINE_NAME.split(' ')[0]}`, width: 4 };  //NAME Wird eingelesen, Mit Funktion Split alledings nur erstes Wort der Zeichenkette (getrennt durch Leerzeichen)
-    }
+    }*/
 
+    //Lienienfarbe anpassen unabhängig von Attribut mit IF-Anwendung
+    style: function (feature) {
+      let lineName = feature.properties.LINE_NAME;
+      let lineColor = "black";
+      if (lineName == "Red Line") {
+        lineColor = "#FF4136"
+      }
+      else if (lineName == "Yellow Line") {
+        lineColor = "#FFDC00"
+      }
+      else if (lineName == "Blue Line") {
+        lineColor = "#0074D9"
+      }
+      else if (lineName == "Green Line") {
+        lineColor = "#2ECC40"
+      }
+      else if (lineName == "Orange Line") {
+        lineColor = "#FF851B"
+      }
+      else if (lineName == "Grey Line") {
+        lineColor = "#AAAAAA "
+      }
+      return { color: lineColor, };
+    }
 
   }).addTo(themaLayer.lines);
 }
