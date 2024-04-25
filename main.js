@@ -152,8 +152,8 @@ async function loadzones(url) {
       //console.log(feature.properties);
       layer.bindPopup(
         `<h4>Fussgängerzone ${feature.properties.ADRESSE}</h4>
-        <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM} <br><br>
-        <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TEXT}
+        <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM || "dauerhaft"} <br><br>
+        <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TEXT || "ohne Außnahme"}
         `
 
       )
@@ -172,8 +172,8 @@ async function loadhotels(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties);
+      //console.log(feature);
+      //console.log(feature.properties);
       layer.bindPopup(`
       
       <h3>${feature.properties.BETRIEB}</h3>
